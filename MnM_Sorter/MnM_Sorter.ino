@@ -16,6 +16,7 @@
 #define colorSensorContolS3 3
 #define colorSensorOutput 2
 #define calibrateMode 11
+#define colorOffSet 10		//Amount to +/- the RGB values by to allow for a margin of error in scanning.
 //NOTE TO SELF - Refactor functions to use these as local variables.
 int redMinimum;
 int redMaximum;
@@ -113,7 +114,7 @@ void loop()
 
 	 //Move the top servo to align with the fallthrough point.
 	topServo.write(posDrop);
-	delay(500);
+	delay(200);
 }
 
 /*
@@ -278,12 +279,12 @@ void calibrate()
 	}//End for loop.
 
 	 //Give each value an additional five units of headroom to ensure MnMs are scanned without error.
-	redMinimum -= 5;
-	redMaximum += 5;
-	greenMinimum -= 5;
-	greenMaximum += 5;
-	blueMinimum -= 5;
-	blueMaximum += 5;
+	redMinimum -= colorOffSet;
+	redMaximum += colorOffSet;
+	greenMinimum -= colorOffSet;
+	greenMaximum += colorOffSet;
+	blueMinimum -= colorOffSet;
+	blueMaximum += colorOffSet;
 
 	//Store the newly read values to the Arduinos non-volatile memory.
 	StoreValuesToEEPROM();
